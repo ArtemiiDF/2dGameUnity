@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 6.0f;
     public float gravity = 9.8f;
     public float jumpForce = 15.0f;
+    public bool IsGrounded;
     
 
     private Rigidbody2D rb2d;
@@ -26,19 +27,15 @@ public class PlayerMovement : MonoBehaviour
     }
     void Movement()
     {
-
-        float moveHorizontal = Input.GetAxis("Horizontal");
-
-        float movementByX = moveHorizontal * speed;
-
-        rb2d.velocity = new Vector2(movementByX, rb2d.velocity.y);
+        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0f,0f);
+        transform.position += movement * Time.deltaTime * speed;
     }
 
     void Jumping()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space)&&IsGrounded)
         {
-            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
+            rb2d.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
         }
 
     }
